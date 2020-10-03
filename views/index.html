@@ -1,0 +1,22 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Print Server</title>
+  <meta name="description" content="A simple web page for print job uploads">
+  <meta name="author" content="Christian Hunick">
+
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body>
+  <h1>Select a File to Upload</h1>
+  <form enctype="multipart/form-data" method="POST" action="http://192.168.0.110:3054/print">
+      <input type="file" name="fileToPrint"><br><br>
+      <button type="submit">Print</button>
+  </form>
+</body>
+</html>
