@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const printController = require('../controllers/printController');
 const multer = require('multer');
+const uniqid = require('uniqid');
 
 // SET STORAGE
 var storage = multer.diskStorage({
@@ -9,7 +10,9 @@ var storage = multer.diskStorage({
       cb(null, './uploads')
     },
    filename: function (req, file, cb) {
-      cb(null, file.originalname)
+      const fileExt = file.originalname.split('.').pop();
+      file.filename = uniqid('', `.${fileExt}`);
+      cb(null, file.filename)
     }
 })
   

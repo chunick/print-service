@@ -4,7 +4,6 @@ const path = require('path');
 const printRoutes = require('./routes/print');
 const bodyParser= require('body-parser')
 const multer = require('multer');
-const uniqid = require('uniqid');
 const fsExtra = require('fs-extra')
 const cron = require('node-cron');
 
