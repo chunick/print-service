@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const { Error, Debug } = require('../gateways/logger')
 
 exports.postPrint = (req, res, next) => {
     const file = req.file;
@@ -13,20 +14,20 @@ exports.postPrint = (req, res, next) => {
         twoSidedOption = landscape ? '-o sides=two-sided-short-edge' : '-o sides=two-sided-long-edge'
     }
     const fitToPageOption = req.body.fitToPage ? '-o fit-to-page' : '';
-    console.log(file);
     if (file) {
-        exec(`lpr -P Deskjet -#${numCopies} ${collateOption} ${twoSidedOption} ${landscapeOption} ${fitToPageOption} ./uploads/${file.filename}`, (err, stdout, stderr) => {
+        exec(`lp -d HP_Deskjet_F300_series -n ${numCopies || 1} ${collateOption} ${twoSidedOption} ${landscapeOption} ${fitToPageOption} ./uploads/${file.filename}`, (err, stdout, stderr) => {
             if (err) {
-                console.log(err);
+                Error("An error occurred while executing print command.", JSON.stringify(err));
                 res.sendStatus(500);
             }
             else {
+                Debug("Printed file.", "Printed file " + file.filename);
                 console.log(`stdout: ${stdout}`);
                 console.log(`stderr: ${stderr}`);
                 return  res.sendStatus(200);
             }
         });
     } else {
-        console.log("failed");
+        Error("Could not extract file from request.", "");
     }
 };
